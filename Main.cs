@@ -1,63 +1,61 @@
-﻿using System;
-using MelonLoader;
+﻿using MelonLoader;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace POVChanger
 {
     public class Main : MelonMod
     {
         //HmdPivot
-        private Camera _MyCam;
-        private Transform _Neck;
-        private Vector3 _OriginalScale;
-        private Camera _PlayerCam;
+        private Camera _myCam;
+        private Transform _neck;
+        private Vector3 _originalScale;
+        private Camera _playerCam;
 
         public override void VRChat_OnUiManagerInit()
         {
-            _MyCam = Camera.main;
+            _myCam = Camera.main;
         }
 
         public override void OnUpdate()
         {
-            if (Input.GetKey(KeyCode.LeftControl))
+            if (Input.anyKeyDown && Input.GetKey(KeyCode.LeftControl))
             {
                 if (Input.GetKeyDown(KeyCode.Alpha5))
                 {
-                    _MyCam.enabled = false;
+                    _myCam.enabled = false;
                     var ply = QuickMenu.prop_QuickMenu_0.field_Private_Player_0;
 
                     if (ply.transform.Find("ForwardDirection/Avatar").GetComponent<Animator>()
                         .GetBoneTransform(HumanBodyBones.Head).FindChild("HmdPivot").GetComponent<Camera>())
                     {
-                        _PlayerCam = ply.transform.Find("ForwardDirection/Avatar").GetComponent<Animator>()
+                        _playerCam = ply.transform.Find("ForwardDirection/Avatar").GetComponent<Animator>()
                             .GetBoneTransform(HumanBodyBones.Head).FindChild("HmdPivot").GetComponent<Camera>();
-                        _PlayerCam.enabled = true;
-                        _Neck = ply.transform.Find("ForwardDirection/Avatar").GetComponent<Animator>()
+                        _playerCam.enabled = true;
+                        _neck = ply.transform.Find("ForwardDirection/Avatar").GetComponent<Animator>()
                             .GetBoneTransform(HumanBodyBones.Neck);
-                        _OriginalScale = _Neck.localScale;
-                        _Neck.localScale = new Vector3(0, _OriginalScale.y, _OriginalScale.z);
+                        _originalScale = _neck.localScale;
+                        _neck.localScale = new Vector3(0, _originalScale.y, _originalScale.z);
                     }
                     else
                     {
-                        _PlayerCam = ply.transform.Find("ForwardDirection/Avatar").GetComponent<Animator>()
+                        _playerCam = ply.transform.Find("ForwardDirection/Avatar").GetComponent<Animator>()
                             .GetBoneTransform(HumanBodyBones.Head).FindChild("HmdPivot").gameObject
                             .AddComponent<Camera>();
-                        _PlayerCam.fieldOfView = 90;
-                        _PlayerCam.nearClipPlane = 0.1f;
-                        _PlayerCam.enabled = true;
-                        _Neck = ply.transform.Find("ForwardDirection/Avatar").GetComponent<Animator>()
+                        _playerCam.fieldOfView = 90;
+                        _playerCam.nearClipPlane = 0.01f;
+                        _playerCam.enabled = true;
+                        _neck = ply.transform.Find("ForwardDirection/Avatar").GetComponent<Animator>()
                             .GetBoneTransform(HumanBodyBones.Neck);
-                        _OriginalScale = _Neck.localScale;
-                        _Neck.localScale = new Vector3(0, _OriginalScale.y, _OriginalScale.z);
+                        _originalScale = _neck.localScale;
+                        _neck.localScale = new Vector3(0, _originalScale.y, _originalScale.z);
                     }
                 }
 
                 if (Input.GetKeyDown(KeyCode.Alpha6))
                 {
-                    _MyCam.enabled = true;
-                    _Neck.localScale = _OriginalScale;
-                    _PlayerCam.enabled = false;
+                    _myCam.enabled = true;
+                    _neck.localScale = _originalScale;
+                    _playerCam.enabled = false;
                 }
             }
         }
