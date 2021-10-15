@@ -1,7 +1,7 @@
-﻿using System;
-using Il2CppSystem.Collections;
-using MelonLoader;
+﻿using MelonLoader;
+using UnhollowerRuntimeLib;
 using UnityEngine;
+using UnityEngine.XR;
 using IEnumerator = System.Collections.IEnumerator;
 
 namespace POVChanger
@@ -9,10 +9,10 @@ namespace POVChanger
     public class Main : MelonMod
     {
         //HmdPivot
-        private Camera _myCam;
-        private Transform _neck;
-        private Vector3 _originalScale;
-        private Camera _playerCam;
+        private static Camera _myCam;
+        private static Transform _neck;
+        private static Vector3 _originalScale;
+        private static Camera _playerCam;
 
         public override void OnApplicationStart()
         {
@@ -26,11 +26,16 @@ namespace POVChanger
                 yield return new WaitForSeconds(1F);
             }
             _myCam = Camera.main;
+            if (XRDevice.isPresent)
+            {
+                ClassInjector.RegisterTypeInIl2Cpp<InputComponent>();
+                GameObject.Find("Update Delegator").AddComponent<InputComponent>();
+            }
         }
 
-        public override void OnUpdate()
+        public static void OnUpdate()
         {
-            if (Input.anyKeyDown && Input.GetKey(KeyCode.LeftControl))
+            if (Input.anyKeyDown && Event.current.control)
             {
                 if (Input.GetKeyDown(KeyCode.Alpha5))
                 {
