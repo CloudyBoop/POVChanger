@@ -26,7 +26,7 @@ namespace POVChanger
                 yield return new WaitForSeconds(1F);
             }
             _myCam = Camera.main;
-            if (XRDevice.isPresent)
+            if (!XRDevice.isPresent)
             {
                 ClassInjector.RegisterTypeInIl2Cpp<InputComponent>();
                 GameObject.Find("Update Delegator").AddComponent<InputComponent>();
