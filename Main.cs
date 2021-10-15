@@ -29,7 +29,9 @@ namespace POVChanger
             if (!XRDevice.isPresent)
             {
                 ClassInjector.RegisterTypeInIl2Cpp<InputComponent>();
-                GameObject.Find("Update Delegator").AddComponent<InputComponent>();
+                var go = new GameObject("PovChangerMod");
+                Object.DontDestroyOnLoad(go);
+                go.AddComponent<InputComponent>();
             }
         }
 
