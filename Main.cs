@@ -1,8 +1,10 @@
-﻿using MelonLoader;
+﻿using System;
+using MelonLoader;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 using UnityEngine.XR;
 using IEnumerator = System.Collections.IEnumerator;
+using Object = UnityEngine.Object;
 
 namespace POVChanger
 {

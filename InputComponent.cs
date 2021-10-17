@@ -9,5 +9,7 @@ namespace POVChanger
         {
             Main.OnUpdate();
         }
+        
+        public InputComponent(IntPtr ptr) : base(ptr) { }
     }
 }
